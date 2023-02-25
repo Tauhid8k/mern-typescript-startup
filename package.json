@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server:dev": "concurrently \"npx tsc -w --preserveWatchOutput\" \"nodemon ./backend/dist\"",
-    "server:build": "rimraf ./backend/dist && npx tsc",
+    "copy-assets": "ts-node ./backend/utils/copyAssets.ts",
+    "server:dev": "concurrently \"npx tsc -w --preserveWatchOutput\" \"nodemon --watch ./backend/dist -e ts,ejs\" \"npm run copy-assets\"",
+    "server:build": "concurrently \"rimraf ./backend/dist && npx tsc\" \"npm run copy-assets\"",
     "client:dev": "npm run dev --prefix frontend",
     "client:build": "npm run build --prefix frontend",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
@@ -14,23 +15,35 @@
   "author": "Md. Tauhid",
   "license": "MIT",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
+    "@types/ejs": "^3.1.2",
     "@types/express": "^4.17.17",
+    "@types/fs-extra": "^11.0.1",
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.14.0",
+    "@types/shelljs": "^0.8.11",
     "concurrently": "^7.6.0",
+    "fs-extra": "^11.1.0",
     "nodemon": "^2.0.20",
     "rimraf": "^4.1.2",
+    "shelljs": "^0.8.5",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "express-rate-limit": "^6.7.0",
     "helmet": "^6.0.1",
     "joi": "^17.8.3",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.3"
   }
 }

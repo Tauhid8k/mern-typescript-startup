@@ -12,10 +12,17 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
   if (res.headersSent) return next(error);
 
   res.status(error.status || 500);
-  res.json({
-    message: error.message || "Internal Server Error",
-    stack: process.env.NODE_ENV === "production" ? null : error.stack,
-  });
+
+  if (req.accepts("html")) {
+    res.render("error", {
+      message: error.message || "Internal Server Error",
+    });
+  } else if (req.accepts("json")) {
+    res.json({
+      message: error.message || "Internal Server Error",
+      stack: process.env.NODE_ENV === "production" ? null : error.stack,
+    });
+  }
 };
 
 export { routeErrorHandler, errorHandler };

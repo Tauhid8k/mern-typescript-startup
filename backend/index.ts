@@ -12,6 +12,9 @@ const app = express();
 dotenv.config();
 connectDB();
 
+// EJS View Engine
+app.set("view engine", "ejs");
+
 // Request parser
 app.use(express.json());
 app.use(cookieParser());
